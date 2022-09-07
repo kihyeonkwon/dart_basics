@@ -58,3 +58,58 @@
   - 람다 함수 : `(a, b)=>a +b`
 
 # 연산자
+
+## 산술 연산자
+
+- ~/ 가 특이한데 파이선 `//`로 몫을 구하는 연산자다.
+
+## 할당 연산자
+
+- 특별한것은 없다.
+
+## 관계 연산자
+
+- 특별할것은 없다.
+
+## 비트 연산자
+
+- 사용할 일이 거의없고 특별할 것은 없다.
+- &, |, ^, ~, <<, >>
+
+## 타입 검사 연산자
+
+- as : 형변환
+  - 상위 타입으로만 형변환 가능하다.
+- is : 특정 타입이면 true
+  - 상위 타입이여도 true
+- is! : 특정 타입이 아니면 true
+
+## 조건 표현식
+
+- ternary operator : `조건? 표현식1 : 표현식2`
+- conditional member access : `employee?.name` employee가 없으면 null을 리턴
+- null check : `employee.name ?? 'new name'` employee가 없으면 'new name'을 리턴
+
+## 케스케이드 표기법
+
+```
+Employee employee = Employee()
+..name = "Kim"
+..setAge(25)
+..showInfo();
+
+//아래와 동일하다
+Employee employee = Employee()
+employee.name = "Kim";
+employee.setAge(25);
+employee.showInfo();
+```
+
+## 조건문
+
+- if, if else, switch case 는 동일하다.
+- assert : 조건식이 거짓이면 에러 발생. debug mode에서만 동작한다.
+
+## 반복문
+
+- for, while, do~while
