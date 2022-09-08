@@ -113,3 +113,102 @@ employee.showInfo();
 ## 반복문
 
 - for, while, do~while
+
+# 클래스
+
+# 생성자
+
+- Default consturctor : 클래스명과 동일하고 부모 클래스의 기본 생성자를 호출한다. 이는 상속되지는 않는다.
+- Named constructor : 한 클래스 내에 많은 생성자가 있는 경우. named constructor를 만들경우 기본생성자를 생략 불가능.
+
+```
+class Person{
+    Person(){
+        print('기본 생성자');
+    }
+
+    Person.init(){
+        print('named constructor');
+    }
+}
+```
+
+- Initializer list : 생성자의 구현부가 실행되기 전에 인스턴스의 변수를 초기화 할 수 있다.
+
+```
+class Person {
+    String name;
+    Person() : name = 'Kwon'{
+        print('This is $name initialized constructor);
+    }
+}
+```
+
+- Redirecting constructor : 초기화리스트를 응용해서 이름생성자의 본체는 비우고 메인 생성자에게 위임할 수 있다.
+
+```
+class Person{
+    String name;
+    int age;
+
+    Person(this.name, this.age){
+        print('$name, $age 의 consturctor');
+    }
+
+
+    Person.initName(String name):this(name, 20);
+    Person.initAge(int age):this('홍길동', age)
+}
+```
+
+- Constant constructor : 클래스가 변하지 않는 객체를 생성한다. 인스턴스 변수가 모두 final. 생성자는 const
+
+```
+class Person {
+    final String name;
+    final num age;
+
+    const Person(this.name, this.age);
+}
+
+main(){
+    //상수 생성자로
+    Person person1 = const Person('Kwon', 30);
+    Person person2 = const Person('Kwon', 30);
+    //일반 생성자로
+    Person person3 = new Person('Kwon', 30);
+    Person person4 = new Person('Kwon', 30);
+    //상수 생성자로 만든 인스턴스들은 다 하나의 메모리에 저장돼있는 상수인스턴스를 가르키고 있다.
+    //person1과 person2는 identical, 1-3, 3-4는 not identical
+}
+```
+
+- Factory constructor : factory 패턴이 적용.
+
+```
+// create Class Car
+class Car {
+    //class properties
+    String name;
+    String color;
+
+    //constructor
+    Car({ this.name, this.color});
+
+    // factory constructor that returns a new instance
+    factory Car.fromJson(Map json) {
+    return Car(name : json['name'],
+    color : json['color']);
+    }
+}
+
+void main(){
+    // create a map
+    Map myCar = {'name': 'Mercedes-Benz', 'color': 'blue'};
+    // assign to Car instance
+    Car car = Car.fromJson(myCar);
+    //display result
+    print(car.name);
+    print(car.color);
+}
+```
