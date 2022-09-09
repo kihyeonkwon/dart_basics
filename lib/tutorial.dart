@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 int calculate() {
   return 6 * 7;
 }
@@ -83,6 +85,44 @@ genericMethod() {
   return person.getName<String>('Kim');
 }
 
+// isolate
+
+isolateTest(var m) {
+  print('isolate no.$m');
+}
+
+void isolateMain() {
+  Isolate.spawn(isolateTest, 1);
+  Isolate.spawn(isolateTest, 2);
+  Isolate.spawn(isolateTest, 3);
+}
+
+void isolateMain2() {
+  int counter = 0;
+  ReceivePort mainReceivePort = ReceivePort();
+
+  mainReceivePort.listen((fooSendPort) {
+    if (fooSendPort is SendPort) {
+      fooSendPort.send(counter++);
+    } else {
+      print(fooSendPort);
+    }
+  });
+
+  for (var i = 0; i < 5; i++) {
+    Isolate.spawn(foo, mainReceivePort.sendPort);
+  }
+}
+
+foo(SendPort mainSendPort) {
+  ReceivePort fooReceivePort = ReceivePort();
+  mainSendPort.send(fooReceivePort.sendPort);
+
+  fooReceivePort.listen((message) {
+    mainSendPort.send('received:$message');
+  });
+}
+
 main() {
-  return genericMethod();
+  return isolateMain2();
 }
