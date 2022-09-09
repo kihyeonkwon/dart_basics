@@ -306,3 +306,55 @@ void main(){
     print(person.getName<String>('Kim));
 }
 ```
+
+# asynchronous programming
+
+- 요청한 작업은 별도의 방식에 맡기고 다음 작업으로 넘어간다.
+- 동시성(concurrency)나 병렬(parallel)과는 비교할 수 없는 개념.
+- dart는 future과 stream을 통해 비동기를 지원하고 isolate라는 구조를 이해해야한다.
+
+## isolate
+
+- isolate는 다트의 모든 코드가 실행되는 공간. 싱글 스레드와 이벤트 루프를 가지고 있다. main isolate는 런타임에 생성된다.
+- 싱글 스레드지만 이벤트루프로 비동기처리를 하고(자바스크립트처럼) 필요하다면 별도의 isolate도 만들수 있다(자바의 스레드처럼).
+- 스레드와 차이점은? 스레드는 스레드끼리 메모리를 공유한다(code, data, heap). isolate는 메모리를 공유하지 않는다.
+- isolate를 사용하면 공유작업시에 message를 통해서 주고받아야한다. 불편할 수 있지만 공유자원에 대한 컨트롤을 신경쓰지 않아도 되서 좋다.
+
+## future, async, await
+
+- future는 uncompleted -> data, error 로 나뉜다.
+- 사용법은 js와 동일하다!
+
+```
+myFuture.then((data){
+    print(data);
+}, onError:(e){
+    print(e);
+})
+```
+
+- stream은 연속 데이터를 listen을 통해 비동기적으로 처리할 수 있다.
+- future가 이미지파일 하나용이라면 stream은 동영상에 쓸 수 있다.
+- stream은 구독자 패턴. 구독자 listen이 대상 stream을 구독하여 변화가 발생하면 알려준다.
+
+```
+main(){
+    print('start');
+    var stream = Stream.periodic(duration(seconds:1), (x)=>x+1)
+    .take(5)
+    .listen((x)=>print('periodic:$x));
+
+    Stream.fromIterable(['one', 'two', 'three'])
+    .listen((dynamic x)=>print('fromIterable: $x'));
+
+    Stream.fromFuture(getData())
+    .listen((x)=> print('fromFuture: $x));
+    print('do something');
+}
+
+Future<String> getData() async{
+    return Future.delayed(Duration(seconds:3), ()=>'after 3 seconds')
+}
+```
+
+- StreamController : stream에 이벤트 직접 지정
