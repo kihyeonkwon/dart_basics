@@ -358,3 +358,44 @@ Future<String> getData() async{
 ```
 
 - StreamController : stream에 이벤트 직접 지정
+
+```
+import 'dart:async';
+
+main(){
+    print('start');
+
+    StreamController streamCtrl = StreamController();
+    streamCtrl.stream.listen((x)=>print(x));
+
+    streamCtrl.add(100);
+    streamCtrl.add(200);
+    streamCtrl.close();
+
+    print('do something');
+}
+```
+
+- streamcontroller는 이미 멤버로 stream을 포함하고 있다.
+- stream에 대한 구독을 listen 등록
+- add로 이벤트 추가. 추가시 listendptj wkehddmfh cjfl
+- close로 stream을 닫는다.
+- stream에 대한 구독자는(listen) 하나만 등록할 수 있다. 2개이상 사용을 위해선 broadcast를 써야 한다.
+
+```
+main(){
+    var stream = Stream.periodic(Duration(seconds:1), (x) => x+1).take(3);
+
+    StreamController streamCtrl = StreamController.broadcast();
+    streamCtrl.stream.listen((x)=>print('listen 1 = $x'));
+    streamCtrl.stream.listen((x)=>print('listen 2 = $x'));
+
+
+
+    streamCtrl.add(100);
+    streamCtrl.add(200);
+    streamCtrl.close();
+
+    print('do something');
+}
+```
