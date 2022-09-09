@@ -212,3 +212,97 @@ void main(){
     print(car.color);
 }
 ```
+
+# 접근 지정자
+
+객체 지향의 4대 특징
+
+1. 추상화 - 객체의 공통 데이터와 메서드를 묶어서 이름을 부여하는 것. 단순히 말해 클래스를 만드는 일. 유의미한 데이터들만 남기고 나머지는 복잡도를 줄이기 위해 숨기는 과정.
+1. 캡슐화 - 접근지정자와 관련. 객체가 목적을 수행하기 위한 데이터와 기능, 즉 멤버 변수와 메서드를 적절하게 모으는 것.
+1. 상속
+1. 다형성
+
+- private : 접근 범위는 동일 클래스가 아닌 라이브러리이다. 언더바를 통해서 지정할 수 있다.
+- public : 다 가능
+
+# getter & setter
+
+- 여러 곳에서 참조하고 있을때 잘못변경되지 않도록 정보 은닉화를 해줘야 한다.
+
+```
+class Person{
+    String _name;
+    String get name => _name;
+    //변경에 대한 제어가 어느정도 가능하다.
+    set name(String name) =>(name == null) ? _name = 'Park : _name= name;;
+}
+
+# 추상화
+
+```
+
+abstract class Person{
+eat();
+}
+
+abstract class Junior{
+work(){
+print('work hard');
+}
+}
+
+class Developer implements Person, Junior{
+@override
+eat(){
+print("dev eating a meal);
+}
+
+    work(){
+        print('working hard~');
+    }
+
+}
+
+# 컬렉션
+
+다수의 데이터를 처리가능. 데이터의집합이기 때문에 반복가능(iterable).
+
+- List : 순서 있고 중복 가능
+- Set : 순서 없고 중복 불가
+- Dict : K:V, 키는 중복 불가
+
+# 제너릭
+
+- 제너릭은 타입 매개변수를 통해 다양한 타입에 대한 유연한 대처를 가능케 한다?
+- 타입 매개변수는 인자 값 대신에 타입을 전달한다.
+
+```
+abstract class List<E> implements EfficientLengthIterable<E>{
+    void add(E value);
+}
+
+
+List<String> colors = List();
+colors.add('Red');
+```
+
+- 아직 타입을 지정하지 않은 상태로 클래스를 만들고 그 뒤에 지정해줄 수 있다.
+- 이로써 코드를 중복으로 선언하지 않을 수 있다.
+- 매개변수화 타입을 제한할 수도 있다. extends를 사용해서 지정하면 된다. `<T extends Person>`
+
+## 제너릭 메서드
+
+- 제너릭은 클래스뿐만 아니라 메서드에도 사용가능하다. 메서드의 리턴 타입, 매개변수를 제너릭으로 지정 가능하다.
+
+```
+class Person{
+    T getName<T>(T param){
+        return param;
+    }
+}
+
+void main(){
+    var person = Person();
+    print(person.getName<String>('Kim));
+}
+```

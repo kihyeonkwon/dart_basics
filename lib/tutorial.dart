@@ -70,6 +70,19 @@ factoryPattern() {
   print('type=${employee.getType()}');
 }
 
+//제너릭 메소드
+
+class GenericPerson {
+  T getName<T>(T param) {
+    return param;
+  }
+}
+
+genericMethod() {
+  var person = GenericPerson();
+  return person.getName<String>('Kim');
+}
+
 main() {
-  return factoryPattern();
+  return genericMethod();
 }
